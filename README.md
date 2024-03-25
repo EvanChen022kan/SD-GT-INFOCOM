@@ -14,8 +14,9 @@ I need to run the following experiments:
                     --batch 512 \
                     --dataset CIFAR100 \
                     --lr 3e-3 \
+                    --K_val 3 \
                     --loss log --random --model TOMCNN \
-                    --c_rounds 25000 --setting1 \
+                    --c_rounds 35000 --setting1 \
                     --name setting1
 
 ```
@@ -25,8 +26,9 @@ However I'm not sure if this one is going to look stable or not when the number 
                     --batch 512 \
                     --dataset CIFAR100 \
                     --lr 1e-3 \
+                    --K_val 3 \
                     --loss log --random --model TOMCNN \
-                    --c_rounds 25000 --setting1 \
+                    --c_rounds 35000 --setting1 \
                     --name setting1_smallerstepsize
 
 ```
@@ -38,8 +40,9 @@ However I'm not sure if this one is going to look stable or not when the number 
                     --batch 512 \
                     --dataset CIFAR100 \
                     --lr 3e-3 \
+                    --K_val 3 \
                     --loss log --random --model TOMCNN \
-                    --c_rounds 25000 --setting2 \
+                    --c_rounds 35000 --setting2 \
                     --name setting2
 
 ```
@@ -49,8 +52,9 @@ Still, the smaller stepsize version
                     --batch 512 \
                     --dataset CIFAR100 \
                     --lr 1e-3 \
+                    --K_val 3 \
                     --loss log --random --model TOMCNN \
-                    --c_rounds 25000 --setting2 \
+                    --c_rounds 35000 --setting2 \
                     --name setting2_smallerstepsize
 
 ```
