@@ -40,7 +40,7 @@ However I'm not sure if this one is going to look stable or not when the number 
                     --lr 3e-3 \
                     --loss log --random --model TOMCNN \
                     --c_rounds 25000 --setting2 \
-                    --name setting1
+                    --name setting2
 
 ```
 Still, the smaller stepsize version
