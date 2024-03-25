@@ -4,6 +4,7 @@
 - Python 3.8.10
 - PyTorch 2.0.0+cu117
 - Numpy 1.23.2
+
 I need to run the following experiments:
 
 ## CIFAR-100 setting1
