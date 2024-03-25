@@ -103,7 +103,7 @@ SCAFFplt_list = []
 #     plt.yticks((0.6, 0.7,0.8,0.9,1))
 LR = opt.lr
 # K_list = [10, 3, 1]
-K_list = [3]
+K_list = [opt.K_val]
 
 config_list = [(12,6), (24,6), (36,6), (46,6), (30,2), (30,5), (30,2)]
 'setting1'

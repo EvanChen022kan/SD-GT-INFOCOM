@@ -25,6 +25,8 @@ class Options():
 
         self.parser.add_argument('--n_agents', type=int, default='30')
         self.parser.add_argument('--n_cluster', type=int, default='6')
+        self.parser.add_argument('--K_val', type=int, default='5')
+
 
         self.parser.add_argument('--kappa', type=float, default=1e-4)
         self.parser.add_argument('--GTarg', type=int, default=1)
