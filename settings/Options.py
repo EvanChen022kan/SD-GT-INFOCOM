@@ -97,6 +97,13 @@ class Options():
 
         self.parser.add_argument('--setting1', action="store_true")
         self.parser.add_argument('--setting2', action="store_true")
+        self.parser.add_argument('--setting3', action="store_true")
+
+
+        self.parser.add_argument('--config_id', type=int, default=1)
+
+        
+
 
 
 

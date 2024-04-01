@@ -12,6 +12,7 @@ import scipy.io as sio
 import copy
 from collections import OrderedDict
 from .GT_func import *
+from checkpoints.save_load import save_config, load_config
 import pdb
 
 
@@ -78,13 +79,16 @@ def SemiFL_NN(input, labels, t_input, t_labels, R, C, N_in, N_out, step_c, T=1, 
 
     error_list = []
     acc_list = []
-
     iter_list = []
 
     lossfn = nn.CrossEntropyLoss()
 
     com_iter = 0
     iters = 0
+    x_new = load_config([global_f, f, x_new], [T, n_agents, opt.n_cluster], opt, 'FedAvg', 'params')
+    R, C, N_in, N_out = load_config([R, C, N_in, N_out], [T, n_agents, opt.n_cluster], opt, 'FedAvg', 'network')
+    iter_list, error_list, acc_list = load_config([iter_list, error_list, acc_list], [T, n_agents, opt.n_cluster], opt, 'FedAvg', 'plot')
+    iters = 0 if len(iter_list) == 0 else iter_list[-1]+10
 
     '''evaluate'''
     result = []
@@ -254,6 +258,10 @@ def SemiFL_NN(input, labels, t_input, t_labels, R, C, N_in, N_out, step_c, T=1, 
 
             # pdb.set_trace()
     print('\n', end = '')
+    if opt.setting1 or opt.setting2 or opt.setting3:
+        save_config([global_f, f, x_cen, x_new], [T, n_agents, opt.n_cluster], opt, 'FedAvg', 'params')
+        save_config([R, C, N_in, N_out],[T, n_agents, opt.n_cluster], opt, 'FedAvg', 'network')
+        save_config([iter_list, error_list, acc_list],[T, n_agents, opt.n_cluster], opt, 'FedAvg', 'plot')
     return iter_list, error_list, acc_list
 
 
@@ -489,18 +497,22 @@ def SemiFLGT2_NN(input, labels, t_input, t_labels, R, C, N_in, N_out, step_c, T=
 
     # y1 = [0 for i in range(n_agents)]
     # y2 = [0 for i in range(n_agents)]
+    error_list = []
+    acc_list = []
+    iter_list = []
+    y, z, x_cen, z_new, x_init, x_old, x_new, cluster_y, old_cluster_y = load_config([global_f, f, y, z, x_cen, z_new, x_init, x_old, x_new, cluster_y, old_cluster_y], [T, n_agents, opt.n_cluster], opt, 'SDGT', 'params')
+    R, C, N_in, N_out = load_config([R, C, N_in, N_out], [T, n_agents, opt.n_cluster], opt, 'SDGT', 'network')
+    iter_list, error_list, acc_list = load_config([iter_list, error_list, acc_list], [T, n_agents, opt.n_cluster], opt, 'SDGT', 'plot')
+    iters = 0 if len(iter_list) == 0 else iter_list[-1]+10
 
     com_count = 0
     gamma = step_c
 
-    error_list = []
-    acc_list = []
-    iter_list = []
 
     lossfn = nn.CrossEntropyLoss()
 
     com_iter = 0
-    iters = 0
+    # iters = 0
 
     '''evaluate'''
     result = []
@@ -870,6 +882,11 @@ def SemiFLGT2_NN(input, labels, t_input, t_labels, R, C, N_in, N_out, step_c, T=
 
             # pdb.set_trace()
     print('\n', end = '')
+    if opt.setting1 or opt.setting2 or opt.setting3:
+        save_config([global_f, f, y, z, x_cen, z_new, x_init, x_old, x_new, cluster_y, old_cluster_y], [T, n_agents, opt.n_cluster], opt, 'SDGT', 'params')
+        save_config([R, C, N_in, N_out],[T, n_agents, opt.n_cluster], opt, 'SDGT', 'network')
+        save_config([iter_list, error_list, acc_list],[T, n_agents, opt.n_cluster], opt, 'SDGT', 'plot')
+
     if control >= 1:
         return iter_list, error_list, acc_list, energy_cost_list
     return iter_list, error_list, acc_list
@@ -934,30 +951,24 @@ def SCAFFOLD_NN(input, labels, t_input, t_labels, R, C, N_in, N_out, step_c, T=1
     c = [copy.deepcopy(z_i) for i in range(n_agents)]
     c_new = [copy.deepcopy(z_i) for i in range(n_agents)]
 
-    # z = [copy.deepcopy(z_i) for i in range(n_agents)]
-    # z_new = [copy.deepcopy(z_i) for i in range(n_agents)]
-    # x_init = [copy.deepcopy(z_i) for i in range(n_agents)]
-    # x_old = [copy.deepcopy(z_i) for i in range(n_agents)]
-    # x_new = [copy.deepcopy(z_i) for i in range(n_agents)]
-    # cluster_y = [copy.deepcopy(z_i) for i in range(n_agents//nc_agents)]
-
-    # x1_new = [0 for i in range(n_agents)]
-    # x2_new = [0 for i in range(n_agents)]
-
-    # y1 = [0 for i in range(n_agents)]
-    # y2 = [0 for i in range(n_agents)]
-
-    com_count = 0
-    gamma = step_c
-
     error_list = []
     acc_list = []
     iter_list = []
 
+    x_cen, c_cen, c_new, c = load_config([global_f, f, x_cen, c_cen, c_new, c], [T, n_agents, opt.n_cluster], opt, 'SCAFFOLD', 'params')
+    R, C, N_in, N_out = load_config([R, C, N_in, N_out], [T, n_agents, opt.n_cluster], opt, 'SCAFFOLD', 'network')
+    iter_list, error_list, acc_list = load_config([iter_list, error_list, acc_list], [T, n_agents, opt.n_cluster], opt, 'SCAFFOLD', 'plot')
+    iters = 0 if len(iter_list) == 0 else iter_list[-1]+10
+
+    
+
+    com_count = 0
+    gamma = step_c
+
+
     lossfn = nn.CrossEntropyLoss()
 
     com_iter = 0
-    iters = 0
 
     '''evaluate'''
     result = []
@@ -1132,4 +1143,8 @@ def SCAFFOLD_NN(input, labels, t_input, t_labels, R, C, N_in, N_out, step_c, T=1
         if iters % 100 == 0:
             print("[%d agents]: " % n_agents, '\tIters:', iters, '\tLoss: %.2E' % error_list[-1], "\tAcc: %.2f" % (100*acc_list[-1]), '\t\t\t\t\r', end = '')
     print('\n', end = '')
+    if opt.setting1 or opt.setting2 or opt.setting3:
+        save_config([global_f, f, x_cen, c_cen, c_new, c], [T, n_agents, opt.n_cluster], opt, 'SCAFFOLD', 'params')
+        save_config([R, C, N_in, N_out],[T, n_agents, opt.n_cluster], opt, 'SCAFFOLD', 'network')
+        save_config([iter_list, error_list, acc_list],[T, n_agents, opt.n_cluster], opt, 'SCAFFOLD', 'plot')
     return iter_list, error_list, acc_list

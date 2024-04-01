@@ -1,4 +1,4 @@
-from libsvm import svmutil
+# from libsvm import svmutil
 import numpy as np
 import torch
 from functions import save_img
@@ -108,10 +108,14 @@ K_list = [opt.K_val]
 config_list = [(12,6), (24,6), (36,6), (46,6), (30,2), (30,5), (30,2)]
 'setting1'
 if opt.setting1:
-    config_list = [(40,2), (40,10), (40,20)]
+    config_list = [(40,2), (40, 5), (40,10), (40,20)]
 'setting2'
 if opt.setting2:
-    config_list = [(48,6), (36,6), (24,6), (12,6)]
+    config_list = [(48,6), (36,6), (24,6), (18,6)]
+
+if opt.setting3:
+    config_list = [(24,6)]
+    K_list = [20, 10, 6]
 
 list1 = []
 list2 = []
@@ -164,15 +168,17 @@ for config in config_list:
         plt.legend(legend_list)
         save_img(plt, "%s_%s_%s_%.2E_%d_%d_%d_%df" % (opt.name, opt.model, opt.dataset, opt.lr, n_agents, opt.n_cluster, opt.sample_num, opt.p_inv), opt)
         plt.clf()   
-        list1.append(SCAFFplt_list)
-        list2.append(Fedplt_list)
-        list3.append(SDGTplt_list)
+        list1.append((it3, acc3))
+        list2.append((it1, acc1))
+        list3.append((it2, acc2))
 
-        save_plt([config_list, list1], "%s_%d_%d_SCAFFOLD" % (opt.dataset, config[0], config[1]), opt)
-        save_plt([config_list, list2], "%s_%d_%d_FedAvg" % (opt.dataset, config[0], config[1]), opt)
-        save_plt([config_list, list3], "%s_%d_%d_SDGT" % (opt.dataset, config[0], config[1]), opt)
+        save_plt([config_list, list1], "%s_%d_%d_%d_SCAFFOLD" % (opt.dataset, config[0], config[1], K), opt)
+        save_plt([config_list, list2], "%s_%d_%d_%d_FedAvg" % (opt.dataset, config[0], config[1], K), opt)
+        save_plt([config_list, list3], "%s_%d_%d_%d_SDGT" % (opt.dataset, config[0], config[1], K), opt)
 
 save_plt([config_list, list1], "%s_SCAFFOLD_%s_%s_%.2E_%d_%d_%d_%df" % (opt.name,opt.model, opt.dataset, opt.lr, n_agents, opt.n_cluster,opt.sample_num, opt.p_inv), opt)
 save_plt([config_list, list2], "%s_FedAvg_%s_%s_%.2E_%d_%d_%d_%df" % (opt.name,opt.model, opt.dataset, opt.lr, n_agents, opt.n_cluster,opt.sample_num, opt.p_inv), opt)
 save_plt([config_list, list3], "%s_SDGT_%s_%s_%.2E_%d_%d_%d_%df" % (opt.name,opt.model, opt.dataset, opt.lr, n_agents, opt.n_cluster,opt.sample_num, opt.p_inv), opt)
 pdb.set_trace()
+
+
