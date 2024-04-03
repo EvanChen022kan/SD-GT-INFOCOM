@@ -34,7 +34,7 @@ Arxiv: ["Taming Subnet-Drift in D2D-Enabled Fog Learning: A Hierarchical Gradien
 
 ```
 
-The results should all be dumped into a folder called 'results', oranized by the date that the experiments finish running. When the code it finish running, just send me the folder (or even just the .plt files in it) and I can draw the plots.
+The results should all be dumped into a folder called 'results', oranized by the date that the experiments finish running.
 
 
 ## Citation
